@@ -1,0 +1,8 @@
+export default {
+  CY_TARGET: Cypress.env('TEST_APP_BASE_URL'),
+  CY_RUN_DEPENDENCIES: Cypress.env('TEST_RUN_DEPENDENCIES'),
+  CY_TIMEOUT: 30 * 1000,
+  CY_WAIT: 0,
+  CY_INITIAL_WAIT: 0,
+  CY_SHORT_WAIT: 1000,
+};

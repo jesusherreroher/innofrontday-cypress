@@ -1,0 +1,29 @@
+{
+  "name": "innofrontday-cypress",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "cypress:open": "npx cypress open --browser chrome",
+    "cypress:run": "npx cypress run --browser chrome",
+    "cyo": "source env.development && npx cypress open --browser chrome",
+    "cyr": "source env.development && npx cypress run --browser chrome"
+  },
+  "dependencies": {
+    "cypress-localstorage-commands": "^1.6.1" 
+  },
+  "devDependencies": {
+    "cypress": "^10.0.1",
+    "prettier": "^2.2.1"
+  },
+  "engines": {
+    "node": ">=16.14.0"
+  },
+  "gitHooks": {
+    "pre-commit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,jsx,vue,ts,tsx}": [
+      "git add"
+    ]
+  }
+}
