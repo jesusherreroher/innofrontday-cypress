@@ -1,0 +1,79 @@
+name: InnoFrontDay Tests1
+run-name: Testing Innocv Web Page
+
+on:
+  push:
+    branches:
+      - 'feature/include-yml'
+
+
+jobs:
+  e2e-test-cypress:
+      runs-on: ubuntu-latest
+      env:
+        TERM: xterm
+        # PATH FOR YOUR TESTS
+        CYPRESS_SPEC_PATH: cypress/e2e/contact.cy.js
+        CYPRESS_TEST_RUN_DEPENDENCIES: "true"
+        # URL TARGET
+        ENVIRONMENT: https://innocv.com/es/
+        CYPRESS_TEST_SKIP_LOGIN: "false"
+
+      container:
+        image: cypress/base:12
+
+      steps:
+        - uses: actions/checkout@v3
+        - name: Install required OS packages
+          env:
+            DEBIAN_FRONTEND: noninteractive
+          run: |
+            echo "::group:: Context Repo dependencies"
+            apt-get update && apt-get install -y \
+              openssh-client tar openssl nodejs curl git coreutils
+            echo "::endgroup::"
+        - name: Download Node modules
+          run: |
+            set -exu
+            npm ci
+        
+        - name: Run E2E tests
+          run:  |
+              export CYPRESS_BASE_URL=${{ env.ENVIRONMENT }}
+              npx cypress run --headless --spec "${{ env.CYPRESS_SPEC_PATH }}" 
+
+        - name: Finish report
+          run: |
+            npm run report-marge
+
+        - name: Upload artifacts results
+          if: always()
+          uses: actions/upload-artifact@v3
+          with:
+            name: results.store_test_results
+            path: artifacts/results
+            if-no-files-found: ignore
+
+        - name: Upload artifacts videos
+          if: always()
+          uses: actions/upload-artifact@v3
+          with:
+            name: results.videos
+            path: artifacts/videos
+            if-no-files-found: ignore
+
+        - name: Upload artifacts screenshots
+          if: always()
+          uses: actions/upload-artifact@v3
+          with:
+            name: results.screenshots
+            path: artifacts/screenshots
+            if-no-files-found: ignore
+
+        - name: Upload artifacts mochawesome report
+          if: always()
+          uses: actions/upload-artifact@v3
+          with:
+            name: results.mochareport
+            path: mochawesome-report
+            if-no-files-found: ignore
