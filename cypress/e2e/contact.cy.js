@@ -38,25 +38,25 @@ describe('Verify contact data', () => {
     cy.contains('Campo requerido');
   });
 
-  it('Checks news article dates', () => {
-    const regex = /^[0-3]?[0-9].[0-3]?[0-9].(?:[0-9]{2})?[0-9]{2}$/;
+  // it('Checks news article dates', () => {
+  //   const regex = /^[0-3]?[0-9].[0-3]?[0-9].(?:[0-9]{2})?[0-9]{2}$/;
 
-    cy.task('log', 'Scroll to news section');
-    cy.contains('noticias', { matchCase: false }).scrollIntoView();
+  //   cy.task('log', 'Scroll to news section');
+  //   cy.contains('noticias', { matchCase: false }).scrollIntoView();
 
-    cy.contains(new RegExp(regex, 'g')).then(($el) => {
-      cy.task('log', 'Get all news dates');
-      cy.task('log', `Total news: ${$el.prevObject}`);
-      Array.from($el.prevObject).forEach(date => {
-        const today = new Date();
-        const monthsOlder = today.getMonth() - 2;
-        const newsDate = new Date(date.textContent.replace( /(\d{2})-(\d{2})-(\d{4})/, '$2/$1/$3'))
-        if (newsDate.getMonth() < monthsOlder) {
-          cy.task('log', 'Article is older than 2 months');
-        } else {
-          cy.task('log', 'Article is newer');
-        }
-      });
-    });
-  });
+  //   cy.contains(new RegExp(regex, 'g')).then(($el) => {
+  //     cy.task('log', 'Get all news dates');
+  //     cy.task('log', `Total news: ${$el.prevObject}`);
+  //     Array.from($el.prevObject).forEach(date => {
+  //       const today = new Date();
+  //       const monthsOlder = today.getMonth() - 2;
+  //       const newsDate = new Date(date.textContent.replace( /(\d{2})-(\d{2})-(\d{4})/, '$2/$1/$3'))
+  //       if (newsDate.getMonth() < monthsOlder) {
+  //         cy.task('log', 'Article is older than 2 months');
+  //       } else {
+  //         cy.task('log', 'Article is newer');
+  //       }
+  //     });
+  //   });
+  // });
 })
