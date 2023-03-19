@@ -2,9 +2,43 @@ name: InnoFrontDay Tests1
 run-name: Testing Innocv Web Page
 
 on:
-  push:
-    branches:
-      - 'feature/include-yml'
+  # push:
+  #   branches:
+  #     - 'feature/yml-manual-launch'
+  workflow_dispatch:
+    inputs:
+      all:
+        description: 'All'
+        required: false
+        default: true
+        type: boolean
+      article_dates:
+        description: 'Article Dates'
+        required: false
+        default: false
+        type: boolean
+      check_author:
+        description: 'Check Author'
+        required: false
+        default: false
+        type: boolean
+      phone_number:
+        description: 'Phone Number'
+        required: false
+        default: false
+        type: boolean
+      required_field:
+        description: 'Required Field'
+        required: false
+        default: false
+        type: boolean
+#  push:
+#    branches:
+#      - 'feature/yml-manual-lauch'
+
+#on:  
+#  schedule:
+#    - cron: '0 8,11,14,17 * * 1-5' #execute - At minute 0 past hour 9, 12, 15, and 18 on every day-of-week from Monday through Friday (utc+1).
 
 jobs:
   e2e-test-cypress:
@@ -12,7 +46,11 @@ jobs:
       env:
         TERM: xterm
         # PATH FOR YOUR TESTS
-        CYPRESS_SPEC_PATH: cypress/e2e/allTest.run.cy.js
+        ALL_TEST: cypress/e2e/allTest.run.cy.js
+        ARTICLE_DATES: cypress/e2e/article_dates.run.cy.js
+        CHECK_AUTHOR: cypress/e2e/check_author.run.cy.js
+        PHONE_NUMBER: cypress/e2e/phone_number.run.cy.js
+        REQUIRED_FIELD: cypress/e2e/required_field.run.cy.js
         CYPRESS_TEST_RUN_DEPENDENCIES: "true"
         # URL TARGET
         ENVIRONMENT: https://innocv.com/es/
@@ -31,6 +69,39 @@ jobs:
             apt-get update && apt-get install -y \
               openssh-client tar openssl nodejs curl git coreutils
             echo "::endgroup::"
+
+        - name: Load test cases
+          run: |
+              echo "Test cases"
+              declare -a SPECS=()
+              
+              if [ "${{inputs.all}}" = true ]
+              then
+                SPECS+=( "${{ env.ALL_TEST }}" )
+              fi
+
+              if [ "${{inputs.article_dates}}" = true ]
+              then
+                SPECS+=( "${{ env.ARTICLE_DATES }}" )
+              fi
+
+              if [ "${{inputs.check_author}}" = true ]
+              then
+                SPECS+=( "${{ env.CHECK_AUTHOR }}" )
+              fi
+
+              if [ "${{inputs.phone_number}}" = true ]
+              then
+                SPECS+=( "${{ env.PHONE_NUMBER }}" )
+              fi
+
+              if [ "${{inputs.required_field}}" = true ]
+              then
+                SPECS+=( "${{ env.REQUIRED_FIELD }}" )
+              fi
+
+              SPEC_STRING="${SPECS[*]}"
+
         - name: Download Node modules
           run: |
             set -exu
@@ -39,7 +110,7 @@ jobs:
         - name: Run E2E tests
           run:  |
               export CYPRESS_BASE_URL=${{ env.ENVIRONMENT }}
-              npx cypress run --headless --spec "${{ env.CYPRESS_SPEC_PATH }}" 
+              npx cypress run --headless --spec "${SPEC_STRING//${IFS:0:1}/,}"
 
         - name: Finish report
           run: |
