@@ -6,17 +6,17 @@ import {
 
 //funtion to enter contact page
 Cypress.Commands.add('enterContactPage', () => {
-  cy.task('log', 'Enter to web...');
+  cy.task('log', '    Enter to web...');
   cy.visitWeb('');
   cy.closeCookies();
-  cy.task('log', 'Enter to contact page');
+  cy.task('log', '    Enter to contact page');
   cy.get('[href="/contacto"]').click();
   cy.interceptService(GET_METHOD,CONTACT_URL,'WaitingContactPage');
 });
 
 //funtion to enter news page
 Cypress.Commands.add('enterNewsPage', () => {
-  cy.task('log', 'Enter to news page...');
+  cy.task('log', '    Enter to news page...');
   cy.visit('https://www.innocv.com/noticias');
   cy.interceptService(GET_METHOD,NEWS_URL,'WaitingNewsPage');
   cy.closeCookies();
