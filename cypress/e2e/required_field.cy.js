@@ -1,0 +1,14 @@
+export default () => { 
+  describe('Required field', () => {
+      beforeEach(() => {
+        cy.enterContactPage();
+      });
+
+      it('Check if required field appears', () => {
+        cy.task('log', 'Send form');
+        cy.get('[id="maps"] .MuiButton-label').click({ force: true });
+        cy.task('log', 'Check required field');
+        cy.contains('Campo requerido').should('have.css','color','rgb(244, 67, 54)')
+      });
+    })
+  };
