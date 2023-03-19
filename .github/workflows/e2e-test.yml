@@ -6,14 +6,13 @@ on:
     branches:
       - 'feature/include-yml'
 
-
 jobs:
   e2e-test-cypress:
       runs-on: ubuntu-latest
       env:
         TERM: xterm
         # PATH FOR YOUR TESTS
-        CYPRESS_SPEC_PATH: cypress/e2e/contact.cy.js
+        CYPRESS_SPEC_PATH: cypress/e2e/allTest.run.cy.js
         CYPRESS_TEST_RUN_DEPENDENCIES: "true"
         # URL TARGET
         ENVIRONMENT: https://innocv.com/es/
