@@ -2,7 +2,7 @@ import { CY_TIMEOUT } from '../cy_vars.js';
 
 
 export default () => {
-  describe('Article dates', () => {
+  describe('1️⃣ Article dates', () => {
     Cypress.config('defaultCommandTimeout', CY_TIMEOUT);
 
     beforeEach(() => {
@@ -12,11 +12,11 @@ export default () => {
     it('Checks news article dates less than 2 months', () => {
       const regex = /^[0-3]?[0-9].[0-3]?[0-9].(?:[0-9]{2})?[0-9]{2}$/;
 
-      cy.task('log', 'Scroll to news section');
+      cy.task('log', '    Scroll to news section');
       cy.contains('noticias', { matchCase: false }).scrollIntoView();
 
       cy.contains(new RegExp(regex, 'g')).then(($el) => {
-        cy.task('log', 'Getting all dates');
+        cy.task('log', '    Getting all dates');
         var thisMonth = 0;
         var older = 0;
         Array.from($el.prevObject).forEach(date => {
@@ -32,8 +32,8 @@ export default () => {
             thisMonth ++;
           }
         });
-        cy.task('log', `Articles of this month: ${thisMonth}`);
-        cy.task('log', `Older Articles: ${older}`);
+        cy.task('log', `    Articles of this month: ${thisMonth}`);
+        cy.task('log', `    Older Articles: ${older}`);
         //expect(thisMonth).to.equal(1);
       });
     });

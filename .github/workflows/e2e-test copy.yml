@@ -46,7 +46,6 @@ jobs:
       env:
         TERM: xterm
         # PATH FOR YOUR TESTS
-        SPEC_STRING: ""
         ALL_TEST: cypress/e2e/allTest.run.cy.js
         ARTICLE_DATES: cypress/e2e/article_dates.run.cy.js
         CHECK_AUTHOR: cypress/e2e/check_author.run.cy.js
@@ -70,45 +69,48 @@ jobs:
             apt-get update && apt-get install -y \
               openssh-client tar openssl nodejs curl git coreutils
             echo "::endgroup::"
-                          
+
+        - name: Load test cases
+          run: |
+              echo "Test cases"
+              declare -a SPECS=()
+              
+              if [ "${{inputs.all}}" = true ]
+              then
+                SPECS+=( "${{ env.ALL_TEST }}" )
+              fi
+
+              if [ "${{inputs.article_dates}}" = true ]
+              then
+                SPECS+=( "${{ env.ARTICLE_DATES }}" )
+              fi
+
+              if [ "${{inputs.check_author}}" = true ]
+              then
+                SPECS+=( "${{ env.CHECK_AUTHOR }}" )
+              fi
+
+              if [ "${{inputs.phone_number}}" = true ]
+              then
+                SPECS+=( "${{ env.PHONE_NUMBER }}" )
+              fi
+
+              if [ "${{inputs.required_field}}" = true ]
+              then
+                SPECS+=( "${{ env.REQUIRED_FIELD }}" )
+              fi
+
+              SPEC_STRING="${SPECS[*]}"
+
         - name: Download Node modules
           run: |
             set -exu
             npm ci
         
         - name: Run E2E tests
-          shell: bash
           run:  |
-            declare -a SPECS=()
-              
-            if [ "${{inputs.all}}" = true ]
-            then
-              SPECS+=( "${{ env.ALL_TEST }}" )
-            fi
-
-            if [ "${{inputs.article_dates}}" = true ]
-            then
-              SPECS+=( "${{ env.ARTICLE_DATES }}" )
-            fi
-
-            if [ "${{inputs.check_author}}" = true ]
-            then
-              SPECS+=( "${{ env.CHECK_AUTHOR }}" )
-            fi
-
-            if [ "${{inputs.phone_number}}" = true ]
-            then
-              SPECS+=( "${{ env.PHONE_NUMBER }}" )
-            fi
-
-            if [ "${{inputs.required_field}}" = true ]
-            then
-              SPECS+=( "${{ env.REQUIRED_FIELD }}" )
-            fi
-
-            export CYPRESS_BASE_URL=${{ env.ENVIRONMENT }}
-            SPEC_STRING="${SPECS[*]}"
-            npx cypress run --headless --spec "${SPEC_STRING//${IFS:0:1}/,}"
+              export CYPRESS_BASE_URL=${{ env.ENVIRONMENT }}
+              npx cypress run --headless --spec "${SPEC_STRING//${IFS:0:1}/,}"
 
         - name: Finish report
           run: |

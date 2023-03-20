@@ -5,11 +5,19 @@ module.exports = defineConfig({
   viewportWidth: 1920,
   viewportHeight: 1200,
   chromeWebSecurity: false,
-  reporter: "junit",
+  reporter: "mochawesome",
+  video: true,
+  videoCompression: 32,
+  videoUploadOnPasses: true,
 
   reporterOptions: {
-    mochaFile: "artifacts/results/test-output-[hash].xml",
+    mochaFile: 'artifacts/results/test-output-[hash].xml',
     toConsole: false,
+    reportDir: 'artifacts/results',
+    overwrite: true,
+    html: false,
+    json: true,
+    charts: true
   },
 
   fixturesFolder: "tests/e2e/fixtures",
