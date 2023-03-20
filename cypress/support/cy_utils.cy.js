@@ -18,8 +18,8 @@ Cypress.Commands.add('enterContactPage', () => {
 Cypress.Commands.add('enterNewsPage', () => {
   cy.task('log', '    Enter to news page...');
   cy.visit('https://www.innocv.com/noticias');
-  cy.interceptService(GET_METHOD,NEWS_URL,'WaitingNewsPage');
   cy.closeCookies();
+  cy.interceptService(GET_METHOD,NEWS_URL,'WaitingNewsPage');
 });
 
 //function to intercept services
