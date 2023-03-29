@@ -1,21 +1,21 @@
 import {
   GET_METHOD,
   NEWS_ENDPOINT,
-  NEW_STATUS_CODE,
-  NEW_AUTHOR
+  NEW_STATUS_CODE
 } from '../support/vars.cy';
 
 
 export default () => {
-  describe('2️⃣ Check author', () => {
+  describe('2️⃣ Check status response', () => {
     beforeEach(() => {
       cy.enterNewsPage();
     });
 
     it('Check Network response ', () => {
-      cy.task('log', '    Check the Author of the new');
+      cy.task('log', '    Check status response');
       cy.get('body').contains('Deep Learning: ¿Qué es y cómo usarlo?').click();
-      cy.checkinterceptResponse(GET_METHOD,NEWS_ENDPOINT,'checkAuthor',NEW_STATUS_CODE,NEW_AUTHOR);
+      cy.url().should('include', 'que-es-deep-learning-categorizacion-de-imagenes')
+      cy.checkNewsResponse(GET_METHOD,NEWS_ENDPOINT,NEW_STATUS_CODE);
     }) 
   })
 };

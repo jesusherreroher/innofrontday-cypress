@@ -9,7 +9,7 @@ export default () => {
       cy.enterContactPage();
     });
 
-    it('Checks news article dates less than 2 months', () => {
+    it('Checks news article dates', () => {
       const regex = /^[0-3]?[0-9].[0-3]?[0-9].(?:[0-9]{2})?[0-9]{2}$/;
 
       cy.task('log', '    Scroll to news section');
@@ -25,16 +25,14 @@ export default () => {
           const newsDate = new Date(date.textContent.replace( /(\d{2})-(\d{2})-(\d{4})/, '$2/$1/$3'))
 
           if (newsDate.getMonth() < monthsOlder) {
-            //cy.task('log', 'Article is not from this month');
             older ++;
           } else {
-            //cy.task('log', 'Article is from this month');
             thisMonth ++;
           }
         });
         cy.task('log', `    Articles of this month: ${thisMonth}`);
         cy.task('log', `    Older Articles: ${older}`);
-        //expect(thisMonth).to.equal(1);
+        expect(thisMonth).to.equal(0);
       });
     });
   })

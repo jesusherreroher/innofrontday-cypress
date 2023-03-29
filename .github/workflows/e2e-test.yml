@@ -2,9 +2,6 @@ name: InnoFrontDay Tests
 run-name: Testing Innocv Web Page
 
 on:
-  # push:
-  #   branches:
-  #     - 'feature/yml-manual-launch'
   workflow_dispatch:
     inputs:
       all:
@@ -17,8 +14,8 @@ on:
         required: false
         default: false
         type: boolean
-      check_author:
-        description: 'Check Author'
+      check_response:
+        description: 'Check Response'
         required: false
         default: false
         type: boolean
@@ -36,7 +33,6 @@ on:
 #    branches:
 #      - 'feature/yml-manual-lauch'
 
-#on:  
 #  schedule:
 #    - cron: '0 8,11,14,17 * * 1-5' #execute - At minute 0 past hour 9, 12, 15, and 18 on every day-of-week from Monday through Friday (utc+1).
 
@@ -49,16 +45,15 @@ jobs:
         SPEC_STRING: ""
         ALL_TEST: cypress/e2e/allTest.run.cy.js
         ARTICLE_DATES: cypress/e2e/article_dates.run.cy.js
-        CHECK_AUTHOR: cypress/e2e/check_author.run.cy.js
+        CHECK_RESPONSE: cypress/e2e/check_response.run.cy.js
         PHONE_NUMBER: cypress/e2e/phone_number.run.cy.js
         REQUIRED_FIELD: cypress/e2e/required_field.run.cy.js
         CYPRESS_TEST_RUN_DEPENDENCIES: "true"
         # URL TARGET
         ENVIRONMENT: https://innocv.com/es/
-        CYPRESS_TEST_SKIP_LOGIN: "false"
 
       container:
-        image: cypress/base:12
+        image: cypress/base:16.18.1
 
       steps:
         - uses: actions/checkout@v3
@@ -84,26 +79,23 @@ jobs:
             if [ "${{inputs.all}}" = true ]
             then
               SPECS+=( "${{ env.ALL_TEST }}" )
-            fi
-
-            if [ "${{inputs.article_dates}}" = true ]
-            then
-              SPECS+=( "${{ env.ARTICLE_DATES }}" )
-            fi
-
-            if [ "${{inputs.check_author}}" = true ]
-            then
-              SPECS+=( "${{ env.CHECK_AUTHOR }}" )
-            fi
-
-            if [ "${{inputs.phone_number}}" = true ]
-            then
-              SPECS+=( "${{ env.PHONE_NUMBER }}" )
-            fi
-
-            if [ "${{inputs.required_field}}" = true ]
-            then
-              SPECS+=( "${{ env.REQUIRED_FIELD }}" )
+            else
+              if [ "${{inputs.article_dates}}" = true ]
+              then
+                SPECS+=( "${{ env.ARTICLE_DATES }}" )
+              fi
+              if [ "${{inputs.check_response}}" = true ]
+              then
+                SPECS+=( "${{ env.CHECK_RESPONSE }}" )
+              fi
+              if [ "${{inputs.phone_number}}" = true ]
+              then
+                SPECS+=( "${{ env.PHONE_NUMBER }}" )
+              fi
+              if [ "${{inputs.required_field}}" = true ]
+              then
+                SPECS+=( "${{ env.REQUIRED_FIELD }}" )
+              fi
             fi
 
             export CYPRESS_BASE_URL=${{ env.ENVIRONMENT }}
@@ -111,12 +103,21 @@ jobs:
             npx cypress run --headless --spec "${SPEC_STRING//${IFS:0:1}/,}"
 
         - name: Finish report
+          if: always()
           run: |
-            npm run report-marge
+            npm run report-marge || true
+
+        - name: Upload artifacts mochawesome report
+          if: always()
+          uses: actions/upload-artifact@v2
+          with:
+            name: results.mochareport
+            path: mochawesome-report
+            if-no-files-found: ignore
 
         - name: Upload artifacts results
           if: always()
-          uses: actions/upload-artifact@v3
+          uses: actions/upload-artifact@v2
           with:
             name: results.store_test_results
             path: artifacts/results
@@ -124,7 +125,7 @@ jobs:
 
         - name: Upload artifacts videos
           if: always()
-          uses: actions/upload-artifact@v3
+          uses: actions/upload-artifact@v2
           with:
             name: results.videos
             path: artifacts/videos
@@ -132,16 +133,8 @@ jobs:
 
         - name: Upload artifacts screenshots
           if: always()
-          uses: actions/upload-artifact@v3
+          uses: actions/upload-artifact@v2
           with:
             name: results.screenshots
             path: artifacts/screenshots
-            if-no-files-found: ignore
-
-        - name: Upload artifacts mochawesome report
-          if: always()
-          uses: actions/upload-artifact@v3
-          with:
-            name: results.mochareport
-            path: mochawesome-report
             if-no-files-found: ignore

@@ -14,7 +14,7 @@ module.exports = defineConfig({
     mochaFile: 'artifacts/results/test-output-[hash].xml',
     toConsole: false,
     reportDir: 'artifacts/results',
-    overwrite: true,
+    overwrite: false,
     html: false,
     json: true,
     charts: true

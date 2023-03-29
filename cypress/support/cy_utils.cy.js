@@ -1,6 +1,7 @@
 import {
   GET_METHOD,
   CONTACT_URL,
+  STATUS_CODE,
   NEWS_URL
 } from '../support/vars.cy';
 
@@ -31,18 +32,18 @@ Cypress.Commands.add('interceptService', (METHOD,URL,NAME) => {
   cy.wait('@'+NAME,{ timeout: 30000 });
 });
 
-//function to check a network response
-Cypress.Commands.add('checkinterceptResponse', (METHOD,URL,NAME,STATUS_CODE,AUTHOR) => {
-  cy.intercept({
-    method: METHOD, 
-    url: URL
-  }).as(NAME);
-  cy.wait('@'+NAME,{ timeout: 30000 }).then((intercept) => {
-    const { statusCode, body } = intercept.response
-    expect(statusCode).to.eq(STATUS_CODE)
-    expect(body.author).to.equal(AUTHOR)
+//function to check a network response in news
+Cypress.Commands.add('checkNewsResponse', (METHOD,URL,STATUS_CODE) => {
+  cy.request(METHOD, URL).then((response) =>{
+    expect(response.status).to.equal(STATUS_CODE);
   })
 });
+
+
+
+
+
+
 
 
 

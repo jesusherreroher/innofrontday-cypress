@@ -56,8 +56,8 @@ The repository contains the following scripts:
 ✅ Script Article Dates
   - Get the dates of the articles and indicate if they are from the current month of before
   
-✅ Check Author
-  - Check that the author of the article visited is the one expected
+✅ Check Response
+  - Check response response
 
 ✅ Phone Number
   - Validate if phone number is same in contact and legal advice
