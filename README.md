@@ -1,7 +1,5 @@
 # Innofrontday-E2E-Testing-with-Cypress
 
-## Table of Contents
-
 <p align="center" width="100%">
     <img width="33%" src="./cypress/docs/img/innofronday.png">
 </p>
@@ -12,12 +10,12 @@
   - [Cypress configuration](./cypress/docs/pages/cypress-config.md)
   - [Git Hub configuration](./cypress/docs/pages/gha-config.md)
 
-- [Innofronday E2E Testing with Cypress](#BMX-E2E-Testing-with-Cypress)
-  - [Table of Contents](#table-of-contents)
+- Innofronday E2E Testing with Cypress
   - [Project setup](#project-setup)
     - [Run your end-to-end tests](#Run-your-end-to-end-tests)
     - [Run your end-to-end mode headless](#Run-your-end-to-end-mode-headless)
     - [InnoFronday Scripts](#Scripts)
+    - [Learn more about automation with Cypress and GitHub Actions](#Learn-more-about-automation-with-Cypress-and-GitHub-Actions)
 
 ---
 
@@ -64,3 +62,8 @@ The repository contains the following scripts:
 
 ✅ Required file
   - When trying to send a form without filling in the mandatory fields, it is verified that the notice appears indicating that there are      mandatory required fields
+
+
+### Learn more about automation with Cypress and GitHub Actions
+
+https://www.innocv.com/web/noticias/automatizacion-de-pruebas-funcionales-con-cypress-y-github-actions
