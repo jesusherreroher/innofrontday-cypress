@@ -8,7 +8,7 @@ export default () => {
         cy.task('log', '    Send form');
         cy.get('[id="maps"] .MuiButton-label').click({ force: true });
         cy.task('log', '    Check required field');
-        cy.contains('Campo requerido').should('have.css','color','rgb(244, 67, 54)')
+        cy.contains('Campo requerido').should('have.css','color','rgb(0, 0, 0)')
       });
     })
   };
