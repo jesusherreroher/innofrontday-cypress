@@ -1,10 +1,10 @@
 import ArticleDates from '../e2e/article_dates.cy'
-import CheckAuthor from '../e2e/check_author.cy';
+import CheckResponse from '../e2e/check_response.cy';
 import PhoneNumber from '../e2e/phone_number.cy';
 import RequiredField from '../e2e/required_field.cy';
 
 ArticleDates();
-CheckAuthor();
+CheckResponse();
 PhoneNumber();
 RequiredField();
 

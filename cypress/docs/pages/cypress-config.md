@@ -65,7 +65,7 @@ Based on the tests defined in the previous steps we can then define feature spec
 A spec creating assets would look like:
 ```
 import './article_dates.cy.js';
-import './check_author.cy.js';
+import './check_response.cy.js';
 import './phone_number.cy.js';
 import './required_file.cy.js';
 ```
