@@ -55,7 +55,7 @@ The repository contains the following scripts:
   - Get the dates of the articles and indicate if they are from the current month of before
   
 ✅ Check Response
-  - Check response response
+  - Check network response
 
 ✅ Phone Number
   - Validate if phone number is same in contact and legal advice
