@@ -1,7 +1,6 @@
 import {
   GET_METHOD,
   CONTACT_URL,
-  STATUS_CODE,
   NEWS_URL
 } from '../support/vars.cy';
 
